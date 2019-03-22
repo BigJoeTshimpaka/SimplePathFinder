@@ -9,9 +9,13 @@ public class Test {
 		// TODO Auto-generated method stub
        LoadMap map = new LoadMap("C:\\Developments\\Projects\\Java\\SimplePathFinding\\map.txt");
        //map.displayMap();
+       System.out.println("Map Sample");
+       System.out.println();
        displayTableMap(map.getMapTable());
        FindPath findPath =  new FindPath(map.getMapTable());
-      findPath.findShortestPath();
+       System.out.println("One possible path to E");
+       System.out.println();
+       findPath.findShortestPath();
        
        
 	}

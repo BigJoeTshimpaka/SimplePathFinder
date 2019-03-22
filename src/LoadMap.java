@@ -18,33 +18,7 @@ public class LoadMap {
 		this.map = map;
 	}
 	
-	/**
-	 * Open a file location and reads all the file content into a string.
-	 * @param fileName
-	 *     the full path of the map to be loaded
-	 * @return string 
-	 *      File payload
-	 * @throws empty string
-	 */
-	public String getMap() {
-		 String content; 
-		 
-		try {
-			  File file = new File(map); 
-			  
-			  BufferedReader br = new BufferedReader(new FileReader(file)); 
-			  
-			  while ((content = br.readLine()) != null) {
-			    System.out.println(content); 
-			  }	
-		}
-		catch(IOException e) {
-			content="";
-			
-		}
-		 return content;
-		
-	}
+	
 	/**
 	 * Open a file location and reads all the file content into a List on string.
 	 * @param fileName
@@ -68,6 +42,14 @@ public class LoadMap {
 		} 
 		return lines; 
 	}
+	/**
+	 * Display map in a tabular format.
+	 * @param 
+	 * 
+	 * @return 
+	 * @throws Exception
+	 */
+	
 	public void displayMap() throws Throwable
 	{
 		if (map.length()==0)
@@ -85,7 +67,7 @@ public class LoadMap {
 		
 	}
 	/**
-	 * @throws Exception 
+	  
 	 * Open a file location and reads all the file content as a table.
 	 * @param fileName
 	 *     the full path of the map to be loaded

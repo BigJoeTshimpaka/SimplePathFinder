@@ -4,20 +4,23 @@ import java.util.*;
 import javax.swing.tree.RowMapper;
 
 public class FindPath {
-    private  String[][] mapTable;
-    private Integer maxRow =0; 
-    private Integer maxColumn =0 ; 
+    
+	private  String[][] mapTable;  //a two dimensional array that stores a map
+    private Integer maxRow =0;  // maximum number of rows starting at index 0
+    private Integer maxColumn =0 ; // maximum number of columns starting at index 0 
     private  Boolean noEnd = false;
 	
-	private List<Tuple<Integer,Integer>> visitedPaths = new ArrayList<Tuple<Integer,Integer>>();
-	private List<Tuple<Integer,Integer>> notvisitedPaths = new ArrayList<Tuple<Integer,Integer>>();
-	private List<Tuple<Integer,Integer>> travelPath = new ArrayList<Tuple<Integer,Integer>>();
+	private List<Tuple<Integer,Integer>> visitedPaths = new ArrayList<Tuple<Integer,Integer>>(); //All the visited points
+	private List<Tuple<Integer,Integer>> travelPath = new ArrayList<Tuple<Integer,Integer>>(); // only the traveled path within the current iteration
+
+	//the class will only have one constructor that will accept the map table 
 	public FindPath( String[][] mapTable)
 	{
 		this.mapTable = mapTable;
 		maxRow = mapTable.length;
 		maxColumn = mapTable[0].length; //assuming that the loaded Map will have equal number of columns per row
 	}
+	// this with define the next direction that the command should to
 	public static class MyEnum
 	{
 		
@@ -31,6 +34,16 @@ public class FindPath {
 		public Direction direction;
 		}
 
+	/**
+	  
+	 * Find the shortest possible that one could travel from the S to E
+	 * Assuming that every map will contain an S and E
+	 * @param 
+	 *     
+	 * @return List<Tuple<Integer,Integer>> 
+	 *      A list of all that the points traveled from S to E  
+	 * @throws 
+	 */
 	 public List<Tuple<Integer,Integer>> findShortestPath()
 	 
 	 {
@@ -95,8 +108,17 @@ public class FindPath {
 		 }
 		 else if(col >0 && mapTable[row][col- 1 ].equals("."))
 		 {
-			 	 direction =MyEnum.Direction.left;
-				 noEnd = true;
+			 if(mapTable[row ][col - 1 ].equals("E"))
+			    {
+			    	currentPosition = endPostion;
+			    }
+			    else {
+			 	direction =MyEnum.Direction.left;
+				currentPosition = nextPosition(currentPosition, direction);
+			    addToTravelledPath(currentPosition);
+				mapTable[currentPosition.y][currentPosition.x]="\"";
+				addToVisitedPath(currentPosition);
+			    }
 			 
              				
 		 }
@@ -140,7 +162,7 @@ public class FindPath {
 				
 				noEnd = false;
 			}
-			 //displayTableMap(mapTable);
+			 displayTableMap(mapTable);
 		}
 		for(Tuple<Integer,Integer> item: travelPath)
 	       {
@@ -151,12 +173,13 @@ public class FindPath {
 		return travelPath;
 		 
 	 }
-	 
+	 //insure that there is no duplicate since a List is not hashed
 	 private void addToVisitedPath(Tuple<Integer, Integer> item){
 		 if(!visitedPaths.contains(item)){
 			 visitedPaths.add(item);
 		 }
 	 }
+	//insure that there is no duplicate since a List is not hashed
 	 private void addToTravelledPath(Tuple<Integer, Integer> item){
 		 if(!travelPath.contains(item)){
 			 travelPath.add(item);
@@ -167,6 +190,8 @@ public class FindPath {
 	//		 notvisitedPaths.add(item);
 	//	 }
 	// }
+	 
+	 
 	 private Tuple<Integer, Integer> findEndPosition(String[][] mapTable) {
 		// This method find the end point of the path
 		 for (int row = mapTable.length -1 ; row >=0 ; row--)
